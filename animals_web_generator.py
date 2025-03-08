@@ -1,29 +1,4 @@
-import requests
-import json
-
-API_URL = "https://api.api-ninjas.com/v1/animals"
-API_KEY = "2TZVJsSaOT2TrVN9mItbaA==c1g3aSnr36B79P9Q"
-
-
-def fetch_animals_from_api(search_term):
-    """Gets the animals data from amnimals api."""
-    response = requests.get(
-        API_URL,
-        headers={"X-Api-Key": API_KEY},
-        params={"name": search_term}
-    )
-
-    if response.status_code == 200:
-        data = response.json()
-        if data:
-            return data
-        else:
-            print("Sorry, no animals found for you.")
-            return []
-    else:
-        print(f"Error: {response.status_code}")
-        return []
-
+import data_fetcher
 
 def serialize_animal(animal):
     """Transforms each animal object in HTML-tags."""
@@ -81,7 +56,10 @@ def main():
     """Coordinates the all over process of getting data and generating the final
     HTML Page for the browser."""
     animal_name = input("Enter a name of an animal: ")
-    animals_data = fetch_animals_from_api(animal_name)
+    animals_data = data_fetcher.fetch_data(animal_name)
+    if not animals_data:
+        print("Sorry, there are no animals to find today!")
+        return
     animals_info = print_animals_info(animals_data)
     template = read_html_template("animals_template.html")
     create_animals_html(template, "animals.html", animals_info)
