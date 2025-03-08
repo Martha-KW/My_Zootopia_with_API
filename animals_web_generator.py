@@ -13,17 +13,17 @@ def fetch_animals_from_api(search_term):
         params={"name": search_term}
     )
 
-    if response.status_code == 200:
-        data = response.json()
-        if data:
-            return data
-        else:
-            print("Sorry, no animals found for you.")
-            return []
-    else:
-        print(f"Error: {response.status_code}")
-        return []
-
+    # if response.status_code == 200:
+    #     data = response.json()
+    #     if data:
+    #         return data
+    #     else:
+    #         print("Sorry, no animals found for you.")
+    #         return []
+    # else:
+    #     print(f"Error: {response.status_code}")
+    #     return []
+    return response.json()
 
 def serialize_animal(animal):
     """Transforms each animal object in HTML-tags."""
@@ -80,7 +80,8 @@ def create_animals_html(template, output_path, animals_info):
 def main():
     """Coordinates the all over process of getting data and generating the final
     HTML Page for the browser."""
-    animals_data = fetch_animals_from_api("fox")  # Nur Tiere mit "Fox" im Namen holen
+    animal_name = input("Enter a name of an animal: ")
+    animals_data = fetch_animals_from_api(animal_name)
     animals_info = print_animals_info(animals_data)
     template = read_html_template("animals_template.html")
     create_animals_html(template, "animals.html", animals_info)
