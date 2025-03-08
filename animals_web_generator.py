@@ -13,17 +13,17 @@ def fetch_animals_from_api(search_term):
         params={"name": search_term}
     )
 
-    # if response.status_code == 200:
-    #     data = response.json()
-    #     if data:
-    #         return data
-    #     else:
-    #         print("Sorry, no animals found for you.")
-    #         return []
-    # else:
-    #     print(f"Error: {response.status_code}")
-    #     return []
-    return response.json()
+    if response.status_code == 200:
+        data = response.json()
+        if data:
+            return data
+        else:
+            print("Sorry, no animals found for you.")
+            return []
+    else:
+        print(f"Error: {response.status_code}")
+        return []
+
 
 def serialize_animal(animal):
     """Transforms each animal object in HTML-tags."""
