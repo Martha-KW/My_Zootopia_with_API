@@ -59,6 +59,13 @@ def main():
     animals_data = data_fetcher.fetch_data(animal_name)
     if not animals_data:
         print("Sorry, there are no animals to find today!")
+        error_message = \
+            (f"<h2>🙀 OH NO!🙀</h2>"
+             f"<h3>The animal <b>'{animal_name}'</b> doesn't exist in database.</h3>"
+             f"<h3>Please try again! </h3>"
+             )
+        template = read_html_template("animals_template.html")
+        create_animals_html(template, "animals.html", error_message)
         return
     animals_info = print_animals_info(animals_data)
     template = read_html_template("animals_template.html")
